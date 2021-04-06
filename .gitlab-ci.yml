@@ -1,0 +1,110 @@
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE != $DOCS_AUTOCOMMIT_TITLE
+    - if: $CI_COMMIT_BRANCH =~ /^manticore-.*$/ && $CI_COMMIT_TITLE != $DOCS_AUTOCOMMIT_TITLE
+    - if: $TEST || $WHAT
+
+# to skip ci add [ci skip] or [skip ci] in commit message in any capitalization
+
+stages:
+  - build
+
+osx:
+  stage: build
+  interruptible: true
+  retry: 1
+  tags:
+    - mac
+    - build
+  script:
+    - cmake -DBUILD_TAG=$RELEASE_TAG -DDISTR=macos .
+    - make -j2 package
+  artifacts:
+    paths:
+      - manticore-*.tar.gz
+    when: on_success
+    expire_in: 12 hrs
+
+windows:
+  stage: build
+  interruptible: true
+  tags:
+    - windev19
+    - build
+  script:
+    - 'net use x: \\\\VBOXSRV\\shared'
+    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG -DDISTR=default .
+    - cmake --build . --target package
+  artifacts:
+    paths:
+      - manticore-*.zip
+    when: on_success
+    expire_in: 12 hrs
+
+.redhat_based:
+  stage: build
+  interruptible: true
+  tags:
+    - docker
+  script:
+    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .
+    - make -j2 package
+  artifacts:
+    paths:
+      - manticore*.rpm
+    when: on_success
+    expire_in: 12 hrs
+
+.debian_based:
+  stage: build
+  interruptible: true
+  tags:
+    - docker
+  script:
+    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .
+    - make -j2 package
+  artifacts:
+    paths:
+      - manticore*deb
+    when: on_success
+    expire_in: 12 hrs
+
+rhel7:
+  extends:
+    - .redhat_based
+  script:
+    - bash -c 'source /opt/rh/devtoolset-8/enable; cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .'
+    - bash -c 'source /opt/rh/devtoolset-8/enable; make -j2 package'
+  image: registry.gitlab.com/manticoresearch/dev/centos7_cmake:317
+
+rhel8:
+  extends:
+    - .redhat_based
+  image: registry.gitlab.com/manticoresearch/dev/centos8_cmake:317
+
+stretch:
+  extends:
+    - .debian_based
+  image: registry.gitlab.com/manticoresearch/dev/stretch_cmake:317
+
+xenial:
+  extends:
+    - .debian_based
+  image: registry.gitlab.com/manticoresearch/dev/xenial_cmake:317
+
+bionic:
+  extends:
+    - .debian_based
+  image: registry.gitlab.com/manticoresearch/dev/bionic_cmake:317
+
+focal:
+  extends:
+    - .debian_based
+  image: registry.gitlab.com/manticoresearch/dev/focal_cmake:317
+
+buster:
+  extends:
+    - .debian_based
+  image: registry.gitlab.com/manticoresearch/dev/buster_cmake:317
