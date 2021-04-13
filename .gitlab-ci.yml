@@ -19,7 +19,7 @@ osx:
     - mac
     - build
   script:
-    - cmake -DBUILD_TAG=$RELEASE_TAG -DDISTR=macos .
+    - cmake -DDISTR=macos .
     - make -j2 package
   artifacts:
     paths:
@@ -34,8 +34,7 @@ windows:
     - windev19
     - build
   script:
-    - 'net use x: \\\\VBOXSRV\\shared'
-    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG -DDISTR=default .
+    - cmake -DPACK=1 -DDISTR=default .
     - cmake --build . --target package
   artifacts:
     paths:
@@ -49,7 +48,7 @@ windows:
   tags:
     - docker
   script:
-    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .
+    - cmake -DPACK=1 .
     - make -j2 package
   artifacts:
     paths:
@@ -63,7 +62,7 @@ windows:
   tags:
     - docker
   script:
-    - cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .
+    - cmake -DPACK=1 .
     - make -j2 package
   artifacts:
     paths:
@@ -74,37 +73,34 @@ windows:
 rhel7:
   extends:
     - .redhat_based
-  script:
-    - bash -c 'source /opt/rh/devtoolset-8/enable; cmake -DPACK=1 -DBUILD_TAG=$RELEASE_TAG .'
-    - bash -c 'source /opt/rh/devtoolset-8/enable; make -j2 package'
-  image: registry.gitlab.com/manticoresearch/dev/centos7_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/centos7_python:394
 
 rhel8:
   extends:
     - .redhat_based
-  image: registry.gitlab.com/manticoresearch/dev/centos8_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/centos8_python:394
 
 stretch:
   extends:
     - .debian_based
-  image: registry.gitlab.com/manticoresearch/dev/stretch_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/stretch_python:394
 
 xenial:
   extends:
     - .debian_based
-  image: registry.gitlab.com/manticoresearch/dev/xenial_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/xenial_python:394
 
 bionic:
   extends:
     - .debian_based
-  image: registry.gitlab.com/manticoresearch/dev/bionic_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/bionic_python:394
 
 focal:
   extends:
     - .debian_based
-  image: registry.gitlab.com/manticoresearch/dev/focal_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/focal_python:394
 
 buster:
   extends:
     - .debian_based
-  image: registry.gitlab.com/manticoresearch/dev/buster_cmake:317
+  image: registry.gitlab.com/manticoresearch/dev/buster_python:394
