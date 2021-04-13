@@ -1,6 +1,6 @@
 cmake_minimum_required ( VERSION 2.8.12 )
 
-PROJECT ( LEMMATIZE_UK )
+PROJECT ( lemmatize_uk )
 
 FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 )
 	IF ( POLICY ${policy} )
@@ -12,22 +12,23 @@ ENDFOREACH ()
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
-SET ( CMAKE_MODULE_PATH "${LEMMATIZE_UK_SOURCE_DIR}/cmake" )
+SET ( CMAKE_MODULE_PATH "${lemmatize_uk_SOURCE_DIR}/cmake" )
 
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
-find_package(PythonLibs REQUIRED)
 
 if(Python3_VERSION VERSION_LESS 3.9)
     message(FATAL_ERROR "Python 3.9 at least required, found ${Python3_VERSION}")
 endif()
 
-include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
+include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
 
 # main bunch of sources
-set ( LEMMATIZE_UK_SRC lemmatize_uk.c )
+set ( lemmatize_uk_SRC lemmatize_uk.c )
 
-add_library(LEMMATIZE_UK SHARED ${LEMMATIZE_UK_SRC})
-target_link_libraries(LEMMATIZE_UK ${PYTHON_LIBRARIES})
+add_library(lemmatize_uk SHARED ${lemmatize_uk_SRC})
+target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
+set_target_properties(lemmatize_uk PROPERTIES OUTPUT_NAME "lemmatize_uk")
+set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
 
 # --------------- related with packaging -------------------
 
@@ -73,7 +74,7 @@ set ( CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}" ) # the descr
 set ( CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/config/CPackOptions.cmake" )
 
 include ( CPack )
-cpack_add_component( LEMMATIZE_UK )
+cpack_add_component( lemmatize_uk )
 
 if ( WIN32 )
         IF ( CMAKE_EXE_LINKER_FLAGS MATCHES "x64" )

@@ -25,10 +25,10 @@ if ( NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE )
 	message ( WARNING "No arch for debian build found. Provide CPACK_PACKAGE_ARCHITECTURE var with the value" )
 endif ()
 
-install ( TARGETS LEMMATIZE_UK LIBRARY DESTINATION ${BINPREFIX}/lib/ ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/ ) # adds lib file
 
 # dependencies will be auto calculated. FIXME! M.b. point them directly?
-set ( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 3.9), python-pymorphy2[fast], python-pymorphy2-dicts-uk" )
+# set ( CPACK_DEBIAN_PACKAGE_DEPENDS "python3 (>= 3.9)" ) # pyhon installed from source can not be found by dpkg
 set ( CPACK_DEBIAN_PACKAGE_SHLIBDEPS "ON" )
 set ( CPACK_DEBIAN_PACKAGE_SECTION "misc" )
 set ( CPACK_DEBIAN_PACKAGE_PRIORITY "optional" )

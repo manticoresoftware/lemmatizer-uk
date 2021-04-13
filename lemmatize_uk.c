@@ -77,20 +77,22 @@ int reject_version ( const char * py_version )
     // from python docs
     // the first three characters are the major and minor version separated by a period
 
+    int py_major;
+    int py_minor;
+    int got_num = sscanf ( py_version, "%d.%d", &py_major, &py_minor );
+    if ( got_num<2 )
+        return 1;
+
     // reject for 2.X
-    if ( py_version[0]<'2' )
+    if ( py_major<3 )
         return 1;
 
     // pass any after 3.X
-    if ( py_version[0]>'3' )
+    if ( py_major>3 )
         return 0;
 
-    // pass 3.9
-    if ( py_version[2]=='9' )
-        return 0;
-
-    // pass any 3.[10-99]
-    if ( py_version[2]>='0' && py_version[2]<='9' && py_version[3]>='0' && py_version[3]<='9' )
+    // pass any after 3.9
+    if ( py_minor>=9 )
         return 0;
 
     // reject 3.[0-8]
@@ -138,6 +140,7 @@ DLLEXPORT int plugin_load ( char * error_message )
     module_data->module = module;
     if ( !module_data->module )
     {
+        PyErr_Print(); // !COMMIT
         snprintf ( error_message, SPH_UDF_ERROR_LEN, "python failed to import module pymorphy2" );
         return 1;
     }

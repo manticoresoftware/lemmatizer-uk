@@ -1,8 +1,8 @@
 # ---------- default ----------
 # Above line is mandatory!
 # rules to build default zip archive
-message ( STATUS "Will create default ZIP" )
+message ( STATUS "Will create default zip" )
 
-set ( CPACK_GENERATOR "ZIP" )
+set ( CPACK_GENERATOR "ZIP;TGZ" )
 
-install ( TARGETS LEMMATIZE_UK LIBRARY DESTINATION "lib" ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION "lib" ) # adds lib file
