@@ -68,8 +68,8 @@ set ( CPACK_PACKAGE_CONTACT "Manticore Team <build@manticoresearch.com>" )
 set ( CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/manticoresoftware/lemmatizer-uk/" )
 set ( CPACK_PACKAGE_VENDOR "${COMPANY_NAME}" )
 set ( CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE" )
-set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Manticore lemmatizer forUkrainian language")
-set ( CPACK_PACKAGE_DESCRIPTION "Manticore lemmatizer forUkrainian language")
+set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Manticore lemmatizer for Ukrainian language")
+set ( CPACK_PACKAGE_DESCRIPTION "Manticore lemmatizer for Ukrainian language takes into consideration the morphological analysis of the words")
 set ( CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}" ) # the description will default to the default one (This is an installer created using CPack..." otherwise, i.e. it doesn't take CPACK_PACKAGE_DESCRIPTION as a default 
 set ( CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/config/CPackOptions.cmake" )
 
