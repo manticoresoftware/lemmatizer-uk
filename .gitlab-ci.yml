@@ -73,3 +73,16 @@ buster:
   extends:
     - .debian_based
   image: registry.gitlab.com/manticoresearch/dev/buster_python:394
+
+collect_repo:
+  stage: repoupload
+  interruptible: true
+  rules:
+    - if: $SOME_VAR==null  #strange hack but without that - the job is skips
+  tags:
+    - dev-host
+  script:
+    - echo "Collected packages"
+    - ls -1
+    - ~/upload_repo.sh
+  dependencies: [rhel7, rhel8, stretch, xenial, bionic, buster, focal]
