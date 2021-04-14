@@ -10,7 +10,8 @@ workflow:
 
 stages:
   - build
-
+  - repoupload
+  
 .redhat_based:
   stage: build
   interruptible: true
