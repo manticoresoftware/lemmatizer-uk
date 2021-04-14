@@ -1,12 +1,12 @@
 cmake_minimum_required ( VERSION 2.8.12 )
 
-PROJECT ( lemmatize_uk )
-
-FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 )
+FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	IF ( POLICY ${policy} )
 		CMAKE_POLICY ( SET ${policy} NEW )
 	ENDIF ()
 ENDFOREACH ()
+
+PROJECT ( lemmatize_uk VERSION 0.1.2 )
 
 # Specify build type
 if(NOT CMAKE_BUILD_TYPE)
