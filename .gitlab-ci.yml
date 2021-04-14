@@ -11,37 +11,6 @@ workflow:
 stages:
   - build
 
-osx:
-  stage: build
-  interruptible: true
-  retry: 1
-  tags:
-    - mac
-    - build
-  script:
-    - cmake -DDISTR=macos .
-    - make -j2 package
-  artifacts:
-    paths:
-      - manticore-*.tar.gz
-    when: on_success
-    expire_in: 12 hrs
-
-windows:
-  stage: build
-  interruptible: true
-  tags:
-    - windev19
-    - build
-  script:
-    - cmake -DPACK=1 -DDISTR=default .
-    - cmake --build . --target package
-  artifacts:
-    paths:
-      - manticore-*.zip
-    when: on_success
-    expire_in: 12 hrs
-
 .redhat_based:
   stage: build
   interruptible: true
