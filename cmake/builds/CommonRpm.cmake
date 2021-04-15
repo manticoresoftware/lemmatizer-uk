@@ -10,7 +10,7 @@ set ( CPACK_PACKAGING_INSTALL_PREFIX "/" )
 
 set ( CPACK_RPM_PACKAGE_RELEASE 1 )
 set ( CPACK_RPM_PACKAGE_RELEASE_DIST ON )
-set ( CPACK_RPM_PACKAGE_URL "https://github.com/manticoresoftware/lemmatizer-uk/" )
+set ( CPACK_RPM_PACKAGE_URL "https://manticoresearch.com/" )
 set ( CPACK_RPM_PACKAGE_GROUP "Applications/Internet" )
 
 set (CPACK_RPM_BUILD_SOURCE_DIRS_PREFIX  OFF)
@@ -26,4 +26,4 @@ SET ( CPACK_RPM_PACKAGE_LICENSE "Apache-2.0" )
 install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/ ) # adds lib file
 
 # rpm -qp --requires file.rpm
-#set ( CPACK_RPM_PACKAGE_REQUIRES "python3 (>= 3.9)" ) # pyhon installed from source can not be found by dpkg
+#set ( CPACK_RPM_PACKAGE_REQUIRES "python3 (>= 3.9)" ) # there's no packages yet for python 3.9 that can be easily installed

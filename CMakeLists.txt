@@ -6,7 +6,7 @@ FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	ENDIF ()
 ENDFOREACH ()
 
-PROJECT ( lemmatize_uk VERSION 0.1.2 )
+PROJECT ( lemmatize_uk VERSION 0.1.3 )
 
 # Specify build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -65,11 +65,11 @@ set ( CPACK_SOURCE_IGNORE_FILES "/\\\\.idea/" "/\\\\.git/"
 set ( CPACK_SOURCE_GENERATOR TGZ )
 set ( CPACK_PACKAGE_NAME "${PACKAGE_NAME}" )
 set ( CPACK_PACKAGE_CONTACT "Manticore Team <build@manticoresearch.com>" )
-set ( CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/manticoresoftware/lemmatizer-uk/" )
+set ( CMAKE_PROJECT_HOMEPAGE_URL "https://manticoresearch.com/" )
 set ( CPACK_PACKAGE_VENDOR "${COMPANY_NAME}" )
 set ( CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE" )
-set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Manticore lemmatizer for Ukrainian language")
-set ( CPACK_PACKAGE_DESCRIPTION "Manticore lemmatizer for Ukrainian language takes into consideration the morphological analysis of the words")
+set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Manticore Ukrainian lemmatizer plugin")
+set ( CPACK_PACKAGE_DESCRIPTION "Lemmatizer for Ukrainian language for Manticore Search based on Pymorphy2")
 set ( CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}" ) # the description will default to the default one (This is an installer created using CPack..." otherwise, i.e. it doesn't take CPACK_PACKAGE_DESCRIPTION as a default 
 set ( CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/config/CPackOptions.cmake" )
 

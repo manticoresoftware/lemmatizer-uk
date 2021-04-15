@@ -10,7 +10,7 @@ workflow:
 
 stages:
   - build
-  - repoupload
+  - publish
   
 .redhat_based:
   stage: build
@@ -75,11 +75,9 @@ buster:
     - .debian_based
   image: registry.gitlab.com/manticoresearch/dev/buster_python:394
 
-collect_repo:
-  stage: repoupload
+publish:
+  stage: publish
   interruptible: true
-  rules:
-    - if: $SOME_VAR==null  #strange hack but without that - the job is skips
   tags:
     - dev-host
   script:
