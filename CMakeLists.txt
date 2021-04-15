@@ -6,7 +6,8 @@ FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	ENDIF ()
 ENDFOREACH ()
 
-PROJECT ( lemmatize_uk VERSION 0.1.3 )
+set (VERSION_STR "0.1.3" )
+PROJECT ( lemmatize_uk VERSION "${VERSION_STR}" )
 
 # Specify build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -70,8 +71,35 @@ set ( CPACK_PACKAGE_VENDOR "${COMPANY_NAME}" )
 set ( CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE" )
 set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Manticore Ukrainian lemmatizer plugin")
 set ( CPACK_PACKAGE_DESCRIPTION "Lemmatizer for Ukrainian language for Manticore Search based on Pymorphy2")
-set ( CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}" ) # the description will default to the default one (This is an installer created using CPack..." otherwise, i.e. it doesn't take CPACK_PACKAGE_DESCRIPTION as a default 
+set ( CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}" ) # the description will default to the default one (This is an installer created using CPack..." otherwise, i.e. it doesn't take CPACK_PACKAGE_DESCRIPTION as a default
 set ( CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/config/CPackOptions.cmake" )
+
+include ( SetBuildType )
+
+SET ( CPACK_PACKAGE_VERSION "${VERSION_STR}" )
+SET ( FULL_VERSION "${CPACK_PACKAGE_VERSION}" )
+string ( TOLOWER "${CPACK_PACKAGE_NAME}" CPACK_PACKAGE_NAME_LOWERCASE )
+
+if ( DISTR_SUFFIX )
+        SET ( FULL_VERSION "${FULL_VERSION}${DISTR_SUFFIX}" )
+endif ()
+
+# delimiter between name and version
+set ( _d "-" )
+if ( CPACK_GENERATOR )
+        if ( ${CPACK_GENERATOR} STREQUAL "DEB" )
+                UNSET ( _d )
+                SET ( _d "_" )
+        endif()
+endif()
+
+SET ( CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_LOWERCASE}${_d}${FULL_VERSION}" )
+
+# deb specific
+set(CPACK_DEBIAN_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}.deb")
+
+# rpm specific (used inside .spec template)
+SET ( CPACK_RPM_PACKAGE_VERSION "${VERSION_STR}" )
 
 include ( CPack )
 cpack_add_component( lemmatize_uk )
