@@ -33,7 +33,7 @@ set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
 
 # --------------- related with packaging -------------------
 
-set ( PACKAGE_NAME "manticore-lemmatize-uk" )
+set ( PACKAGE_NAME "manticore-lemmatizer-uk" )
 set ( COMPANY_NAME "Manticore Software LTD" )
 set ( BUILD_TAG "" CACHE STRING "The tag which will be added to build" )
 set ( PKGSUFFIXES ) # list of suffixes which will be append to package name, will be '-'-separated and added to package file name along with DISTR_SUFFIX
