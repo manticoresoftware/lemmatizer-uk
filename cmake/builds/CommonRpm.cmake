@@ -1,7 +1,7 @@
 # Common rpm-specific build variables
 cmake_minimum_required ( VERSION 3.12 )
 
-set ( BINPREFIX "usr/" )
+set ( BINPREFIX "usr/local/manticore/" )
 
 set ( CPACK_GENERATOR "RPM" )
 SET ( CPACK_RPM_FILE_NAME "RPM-DEFAULT" )

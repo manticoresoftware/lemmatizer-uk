@@ -4,7 +4,7 @@ cmake_minimum_required ( VERSION 3.13 )
 # Common debian-specific build variables
 set ( CPACK_GENERATOR "DEB" )
 set ( CPACK_PACKAGING_INSTALL_PREFIX "/" )
-set ( BINPREFIX "usr/" )
+set ( BINPREFIX "usr/local/manticore/" )
 set ( CPACK_DEBIAN_FILE_NAME DEB-DEFAULT )
 set ( CPACK_DEBIAN_PACKAGE_DEBUG ON)
 
