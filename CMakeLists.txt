@@ -27,7 +27,7 @@ include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
 set ( lemmatize_uk_SRC lemmatize_uk.c )
 
 add_library(lemmatize_uk SHARED ${lemmatize_uk_SRC})
-target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
+#target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
 set_target_properties(lemmatize_uk PROPERTIES OUTPUT_NAME "lemmatize_uk")
 set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
 
