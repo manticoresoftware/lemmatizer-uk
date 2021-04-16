@@ -6,7 +6,7 @@ FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	ENDIF ()
 ENDFOREACH ()
 
-set (VERSION_STR "0.1.5" )
+set (VERSION_STR "0.1.7" )
 PROJECT ( lemmatize_uk VERSION "${VERSION_STR}" )
 
 # Specify build type
@@ -27,7 +27,7 @@ include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
 set ( lemmatize_uk_SRC lemmatize_uk.c )
 
 add_library(lemmatize_uk SHARED ${lemmatize_uk_SRC})
-#target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
+target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
 set_target_properties(lemmatize_uk PROPERTIES OUTPUT_NAME "lemmatize_uk")
 set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
 
