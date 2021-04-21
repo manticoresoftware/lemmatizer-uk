@@ -32,6 +32,9 @@ set_target_properties(lemmatize_uk PROPERTIES OUTPUT_NAME "lemmatize_uk")
 set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
 set(CPACK_RPM_PACKAGE_AUTOREQ 0)
 
+file(WRITE ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/manticore_uk_lemmatizer.conf "/usr/local/lib\n")
+install(FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/manticore_uk_lemmatizer.conf DESTINATION /etc/ld.so.conf.d)
+
 # --------------- related with packaging -------------------
 
 set ( PACKAGE_NAME "manticore-lemmatizer-uk" )
