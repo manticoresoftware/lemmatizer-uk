@@ -6,7 +6,7 @@ FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	ENDIF ()
 ENDFOREACH ()
 
-set (VERSION_STR "0.1.7" )
+set (VERSION_STR "0.1.9" )
 PROJECT ( lemmatize_uk VERSION "${VERSION_STR}" )
 
 # Specify build type
@@ -30,6 +30,7 @@ add_library(lemmatize_uk SHARED ${lemmatize_uk_SRC})
 target_link_libraries(lemmatize_uk ${Python3_LIBRARIES})
 set_target_properties(lemmatize_uk PROPERTIES OUTPUT_NAME "lemmatize_uk")
 set_target_properties(lemmatize_uk PROPERTIES PREFIX  "")
+set(CPACK_RPM_PACKAGE_AUTOREQ 0)
 
 # --------------- related with packaging -------------------
 
