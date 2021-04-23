@@ -6,7 +6,7 @@ FOREACH ( policy CMP0054 CMP0057 CMP0042 CMP0074 CMP0110 CMP0048 )
 	ENDIF ()
 ENDFOREACH ()
 
-set (VERSION_STR "0.1.11" )
+set (VERSION_STR "1.0.0" )
 PROJECT ( lemmatize_uk VERSION "${VERSION_STR}" )
 
 # Specify build type
