@@ -9,9 +9,21 @@ workflow:
 # to skip ci add [ci skip] or [skip ci] in commit message in any capitalization
 
 stages:
+  - mirroring
   - build
   - publish
-  
+
+job_mirror:
+  stage: mirroring
+  rules:
+    - if: $TEST==null && $CI_COMMIT_BRANCH == "master"
+  tags:
+    - dev-host
+  dependencies: []
+  script:
+    - ~/gitsync_uk_lemmatizer.sh
+  cache: {}
+
 .redhat_based:
   stage: build
   interruptible: true
