@@ -1,7 +1,7 @@
 # Common rpm-specific build variables
 cmake_minimum_required ( VERSION 3.12 )
 
-set ( BINPREFIX "usr/local/manticore/" )
+set ( BINPREFIX "usr/local" )
 
 set ( CPACK_GENERATOR "RPM" )
 SET ( CPACK_RPM_FILE_NAME "RPM-DEFAULT" )
@@ -23,7 +23,7 @@ endif ()
 
 SET ( CPACK_RPM_PACKAGE_LICENSE "Apache-2.0" )
 
-install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/ ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/manticore ) # adds lib file
 
 # rpm -qp --requires file.rpm
 #set ( CPACK_RPM_PACKAGE_REQUIRES "python3 (>= 3.9)" ) # there's no packages yet for python 3.9 that can be easily installed
