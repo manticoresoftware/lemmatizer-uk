@@ -4,7 +4,7 @@ cmake_minimum_required ( VERSION 3.13 )
 # Common debian-specific build variables
 set ( CPACK_GENERATOR "DEB" )
 set ( CPACK_PACKAGING_INSTALL_PREFIX "/" )
-set ( BINPREFIX "usr/local/manticore/" )
+set ( BINPREFIX "usr/local" )
 set ( CPACK_DEBIAN_FILE_NAME DEB-DEFAULT )
 set ( CPACK_DEBIAN_PACKAGE_DEBUG ON)
 
@@ -25,7 +25,7 @@ if ( NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE )
 	message ( WARNING "No arch for debian build found. Provide CPACK_PACKAGE_ARCHITECTURE var with the value" )
 endif ()
 
-install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/ ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/manticore ) # adds lib file
 
 # dependencies will be auto calculated. FIXME! M.b. point them directly?
 # set ( CPACK_DEBIAN_PACKAGE_DEPENDS "python3 (>= 3.9)" ) # pyhon installed from source can not be found by dpkg
