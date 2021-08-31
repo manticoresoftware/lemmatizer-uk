@@ -60,6 +60,7 @@ typedef struct module_data
 {
     PyObject *  module;
     PyObject *  morph;
+    PyObject *  module_functool;
     PyThreadState * thd_save;
     int python_initialized;
 } MODULEDATA;
@@ -134,7 +135,7 @@ DLLEXPORT int plugin_load ( char * error_message )
     module_data->module = module;
     if ( !module_data->module )
     {
-        PyErr_Print(); // !COMMIT
+        //PyErr_Print(); // !COMMIT
         snprintf ( error_message, SPH_UDF_ERROR_LEN, "python failed to import module pymorphy2" );
         return 1;
     }
@@ -167,6 +168,17 @@ DLLEXPORT int plugin_load ( char * error_message )
     Py_DECREF ( morph );
     Py_DECREF ( method_name );
 
+    PyObject *  module_functool = PyImport_ImportModule ( "functools" );
+    module_data->module_functool = module_functool;
+    if ( !module_data->module_functool )
+    {
+        //PyErr_Print(); // !COMMIT
+        snprintf ( error_message, SPH_UDF_ERROR_LEN, "python failed to import module functool" );
+        return 1;
+    }
+    Py_INCREF ( module_data->module_functool );
+
+
     // release GIL for other threads
     module_data->thd_save = PyEval_SaveThread();
 
@@ -182,6 +194,7 @@ DLLEXPORT int plugin_unload ( char * error_message )
 
         Py_CLEAR ( module_data->morph );
         Py_CLEAR ( module_data->module );
+        Py_CLEAR ( module_data->module_functool );
 
         // only plugin that initilize Python shutdown it
         if ( module_data->python_initialized )
@@ -205,6 +218,9 @@ typedef struct token_data
     int         src_tokens;
     int         dst_tokens;
 
+    // cached wrapper around module parse method
+    PyObject *  cached_parse;
+
 } TOKENDATA;
 
 int plugin_init ( void ** userdata, char * error_message )
@@ -217,6 +233,25 @@ int plugin_init ( void ** userdata, char * error_message )
     }
 	memset ( data, 0, sizeof(*data) );
 	*userdata=data;
+
+    // create cache wrapper around parse method to speed up indexing
+    {
+        PyObject * fn = PyObject_GetAttrString ( module_data->module_functool, "cache" );
+        PyObject * fn_args = Py_BuildValue ( "(O)", module_data->morph );
+        PyObject * cache_wrapper = PyObject_Call ( fn, fn_args, NULL );
+        Py_DECREF ( fn_args );
+        Py_DECREF ( fn );
+
+        if ( !cache_wrapper )
+        {
+            //PyErr_Print(); // FIXME!!! replace with PyErr_Fetch + PyErr_NormalizeException
+            snprintf ( error_message, SPH_UDF_ERROR_LEN, "failed to create cache wrapper from functool" );
+            return 1;
+        }
+
+        data->cached_parse = cache_wrapper;
+    }
+
 
 	return 0;
 }
@@ -234,6 +269,7 @@ void plugin_deinit ( void * userdata )
         gstate = PyGILState_Ensure();
 
         Py_CLEAR ( data->terms );
+        Py_CLEAR ( data->cached_parse );
 
         PyGILState_Release(gstate);
 
@@ -244,7 +280,15 @@ void plugin_deinit ( void * userdata )
 /// returns 0 on success, MUST fill error_message otherwise
 DLLEXPORT int luk_init ( void ** userdata, int num_fields, const char ** field_names, const char * options, char * error_message )
 {
-    return plugin_init ( userdata, error_message );
+    int iRes;
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
+
+    iRes = plugin_init ( userdata, error_message );
+
+    PyGILState_Release(gstate);
+
+    return iRes;
 }
 
 /// final cleanup
@@ -285,7 +329,7 @@ int parse_token ( TOKENDATA * data, char * token )
 
     PyObject * morph_token = Py_BuildValue ( "s", token );
 
-    PyObject * res = PyObject_CallOneArg( module_data->morph, morph_token );
+    PyObject * res = PyObject_CallOneArg( data->cached_parse, morph_token );
     int iOk = parse_morph_result ( res, data );
 
     Py_CLEAR ( morph_token );
