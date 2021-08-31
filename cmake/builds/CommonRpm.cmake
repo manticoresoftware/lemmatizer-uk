@@ -23,7 +23,7 @@ endif ()
 
 SET ( CPACK_RPM_PACKAGE_LICENSE "Apache-2.0" )
 
-install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/manticore ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/manticore/lib ) # adds lib file
 
 # rpm -qp --requires file.rpm
 #set ( CPACK_RPM_PACKAGE_REQUIRES "python3 (>= 3.9)" ) # there's no packages yet for python 3.9 that can be easily installed

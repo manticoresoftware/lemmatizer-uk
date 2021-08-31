@@ -25,7 +25,7 @@ if ( NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE )
 	message ( WARNING "No arch for debian build found. Provide CPACK_PACKAGE_ARCHITECTURE var with the value" )
 endif ()
 
-install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/lib/manticore ) # adds lib file
+install ( TARGETS lemmatize_uk LIBRARY DESTINATION ${BINPREFIX}/manticore/lib ) # adds lib file
 
 # dependencies will be auto calculated. FIXME! M.b. point them directly?
 # set ( CPACK_DEBIAN_PACKAGE_DEPENDS "python3 (>= 3.9)" ) # pyhon installed from source can not be found by dpkg
